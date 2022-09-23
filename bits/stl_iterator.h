@@ -1,10 +1,9 @@
 #ifndef STL_ITERATOR_H_
 #define STL_ITERATOR_H_
 
-// #include <iterator>
-#include "./cpp_type_traits.h"
-#include "./stl_iterator_base_types.h"
-#include "./type_traits.h"
+#include "cpp_type_traits.h"
+#include "stl_iterator_base_types.h"
+#include "../ext/type_traits.h"
 
 namespace ft {
 

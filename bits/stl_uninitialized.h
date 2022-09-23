@@ -1,7 +1,7 @@
 #ifndef STL_UNINITIALIZED_H_
 #define STL_UNINITIALIZED_H_
 
-#include "./stl_construct.h"
+#include "stl_construct.h"
 
 namespace ft {
 

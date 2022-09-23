@@ -1,16 +1,14 @@
 #ifndef STL_VECTOR_H_
 #define STL_VECTOR_H_
 
-
-
 #include <memory>
 #include <algorithm>
 #include <stdexcept>
 #include <iterator>
 
-#include "./stl_uninitialized.h"
-#include "./stl_iterator.h"
-#include "./stl_algobase.h"
+#include "stl_uninitialized.h"
+#include "stl_iterator.h"
+#include "stl_algobase.h"
 
 namespace ft {
 
@@ -131,10 +129,7 @@ class vector : protected Vector_base<Tp, Alloc>
     using Base::M_deallocate;
     using Base::M_impl;
     using Base::M_get_Tp_allocator;
-    // typedef typename Base::M_allocate         M_allocate;
-    // typedef typename Base::M_deallocate       M_deallocate;
-    // typedef typename Base::M_impl             M_impl;
-    // typedef typename Base::M_get_Tp_allocator M_get_Tp_allocator;
+
 
   public:
     // construct/copy/destroy
@@ -201,7 +196,7 @@ class vector : protected Vector_base<Tp, Alloc>
     : Base(a)
     {
       // Check whether it's an integral type. If so, it's not an iterator.
-      typedef typename ft::is_integral<InputIterator>::type Integral;
+      typedef typename ft::is_integer<InputIterator>::type Integral;
       M_initialize_dispatch(first, last, Integral());
     }
 
@@ -293,7 +288,7 @@ class vector : protected Vector_base<Tp, Alloc>
     assign(InputIterator first, InputIterator last)
     {
       // Check whether it's an integral type. If so, it's not an iterator.
-      typedef typename ft::is_integral<InputIterator>::type Integral;
+      typedef typename ft::is_integer<InputIterator>::type Integral;
       M_assign_dispatch(first, last, Integral());
     }
 
@@ -641,10 +636,8 @@ class vector : protected Vector_base<Tp, Alloc>
         ++this->M_impl.M_finish;
       }
       else
-      {
         M_insert_aux(position, x);
-        return iterator(this->M_impl.M_start + n);
-      }
+      return iterator(this->M_impl.M_start + n);
     }
 
     /**
@@ -684,7 +677,7 @@ class vector : protected Vector_base<Tp, Alloc>
       InputIterator last)
     {
       // Check whether it's an integral type. If so, it's not an iterator.
-      typedef typename ft::is_integral<InputIterator>::type Integral;
+      typedef typename ft::is_integer<InputIterator>::type Integral;
       M_insert_dispatch(position, first, last, Integral());
     }
 
@@ -797,7 +790,7 @@ class vector : protected Vector_base<Tp, Alloc>
     // Called by the range constructor to implement
     template <typename Integer>
     void
-    M_initialize_dispatch(Integer n, Integer value, true_type)
+    M_initialize_dispatch(Integer n, Integer value, __true_type)
     {
       this->M_impl.M_start = M_allocate(n);
       this->M_impl.M_end_of_storage = this->M_impl.M_start + n;
@@ -810,7 +803,7 @@ class vector : protected Vector_base<Tp, Alloc>
     template <typename InputIterator>
     void
     M_initialize_dispatch(InputIterator first, InputIterator last,
-      false_type)
+    __false_type)
     {
       typedef typename ft::iterator_traits<InputIterator>::
         iterator_category IterCategory;
@@ -821,7 +814,7 @@ class vector : protected Vector_base<Tp, Alloc>
     template <typename InputIterator>
     void
     M_range_initialize(InputIterator first,
-      InputIterator last, ft::input_iterator_tag)
+      InputIterator last, std::input_iterator_tag)
     {
       for (; first != last; ++first)
         push_back(*first);
@@ -831,9 +824,11 @@ class vector : protected Vector_base<Tp, Alloc>
     template <typename ForwardIterator>
     void
     M_range_initialize(ForwardIterator first,
-      ForwardIterator last, ft::forward_iterator_tag)
+      ForwardIterator last, std::forward_iterator_tag)
     {
+      // Todo remove
       const size_type n = std::distance(first, last);
+      // const size_type n = ft::distance(first, last);
       this->M_impl.M_start = this->M_allocate(n);
       this->M_impl.M_end_of_storage = this->M_impl.M_start + n;
       this->M_impl.M_finish =
@@ -848,7 +843,7 @@ class vector : protected Vector_base<Tp, Alloc>
     // Called by the range assign to implement [23.1.1]/9
     template <typename Integer>
     void
-    M_assign_dispatch(Integer n, Integer val, true_type)
+    M_assign_dispatch(Integer n, Integer val, __true_type)
     {
       M_fill_assign(static_cast<size_type>(n),
         static_cast<value_type>(val));
@@ -858,7 +853,7 @@ class vector : protected Vector_base<Tp, Alloc>
     template <typename InputIterator>
     void
     M_assign_dispatch(InputIterator first, InputIterator last,
-      false_type)
+      __false_type)
     {
       typedef typename ft::iterator_traits<InputIterator>::
         iterator_category IterCategory;
@@ -869,7 +864,7 @@ class vector : protected Vector_base<Tp, Alloc>
     template <typename InputIterator>
     void
     M_assign_aux(InputIterator first, InputIterator last,
-      ft::input_iterator_tag)
+      std::input_iterator_tag)
     {
       pointer cur(this->M_impl.M_start);
       for (; first != last && cur != this->M_impl.M_finish;
@@ -885,9 +880,11 @@ class vector : protected Vector_base<Tp, Alloc>
     template <typename ForwardIterator>
     void
     M_assign_aux(ForwardIterator first, ForwardIterator last,
-      ft::forward_iterator_tag)
+      std::forward_iterator_tag)
     {
+      // Todo remove
       const size_type len = std::distance(first, last);
+      // const size_type n = ft::distance(first, last);
 
       if (len > capacity())
       {
@@ -927,6 +924,8 @@ class vector : protected Vector_base<Tp, Alloc>
       }
       else if (n > size())
       {
+        // Todo remove
+        // ft::fill(begin(), end(), val);
         std::fill(begin(), end(), val);
         ft::uninitialized_fill_n_a(this->M_impl.M_finish,
           n - size(), val,
@@ -1091,7 +1090,7 @@ class vector : protected Vector_base<Tp, Alloc>
     template <typename Integer>
     void
     M_insert_dispatch(iterator pos, Integer n, Integer val,
-      true_type)
+      __true_type)
     {
       M_fill_insert(pos, static_cast<size_type>(n),
         static_cast<value_type>(val));
@@ -1101,7 +1100,7 @@ class vector : protected Vector_base<Tp, Alloc>
     template <typename InputIterator>
     void
     M_insert_dispatch(iterator pos, InputIterator first,
-      InputIterator last, false_type)
+      InputIterator last, __false_type)
     {
       typedef typename ft::iterator_traits<InputIterator>::
         iterator_category IterCategory;
@@ -1112,7 +1111,7 @@ class vector : protected Vector_base<Tp, Alloc>
     template <typename InputIterator>
     void
     M_range_insert(iterator pos, InputIterator first,
-      InputIterator last, ft::input_iterator_tag)
+      InputIterator last, std::input_iterator_tag)
     {
       for (; first != last; ++first)
       {
@@ -1124,7 +1123,7 @@ class vector : protected Vector_base<Tp, Alloc>
     template <typename ForwardIterator>
     void
     M_range_insert(iterator pos, ForwardIterator first,
-      ForwardIterator last, ft::forward_iterator_tag)
+      ForwardIterator last, std::forward_iterator_tag)
     {
       if (first != last)
       {

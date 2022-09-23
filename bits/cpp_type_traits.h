@@ -21,15 +21,6 @@ template <>
 struct truth_type<true>
 { typedef __true_type type; };
 
-// N.B. The conversions to bool are needed due to the issue
-// explained in c++/19404.
-template <class Sp, class Tp>
-struct traitor
-{
-  enum { value = bool(Sp::value) || bool(Tp::value) };
-  typedef typename truth_type<value>::type type;
-};
-
 // Compare for equality of types.
 template <typename, typename>
 struct are_same
@@ -142,72 +133,6 @@ struct is_integer<unsigned long long>
   enum { value = 1 };
   typedef __true_type type;
 };
-
-//
-// Floating point types
-//
-template <typename Tp>
-struct is_floating
-{
-  enum { value = 0 };
-  typedef __false_type type;
-};
-
-// three specializations (float, double and 'long double')
-template <>
-struct is_floating<float>
-{
-  enum { value = 1 };
-  typedef __true_type type;
-};
-
-template <>
-struct is_floating<double>
-{
-  enum { value = 1 };
-  typedef __true_type type;
-};
-
-template <>
-struct is_floating<long double>
-{
-  enum { value = 1 };
-  typedef __true_type type;
-};
-
-
-//
-// Pointer types
-//
-template <typename Tp>
-struct is_pointer
-{
-  enum { value = 0 };
-  typedef __false_type type;
-};
-
-template <typename Tp>
-struct is_pointer<Tp*>
-{
-  enum { value = 1 };
-  typedef __true_type type;
-};
-
-//
-// A arithmetic type is an integer type or a floating point type
-//
-template <typename Tp>
-struct is_arithmetic
-: public traitor<is_integer<Tp>, is_floating<Tp> >
-{ };
-
-//
-// A scalar type is an arithmetic type or a pointer type
-//
-template <typename Tp>
-struct is_scalar
-: public traitor<is_arithmetic<Tp>, is_pointer<Tp> >
-{ };
 
 } // ft
 #endif // CPP_TYPE_TRATIS_H_
