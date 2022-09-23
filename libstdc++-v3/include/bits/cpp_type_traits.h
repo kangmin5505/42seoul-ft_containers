@@ -134,5 +134,29 @@ struct is_integer<unsigned long long>
   typedef __true_type type;
 };
 
+namespace detail
+{
+  // NB: g++ can not compile these if declared within the class
+  // __is_pod itself.
+  typedef char one;
+  typedef char two[2];
+
+  template <typename Tp>
+  one test_type(int Tp::*);
+  template <typename Tp>
+  two test_type(...);
+} // detail
+
+// For the immediate use, the following is a good approximation.
+template <typename Tp>
+struct is_pod
+{
+  enum
+  {
+    value = (sizeof(detail::))
+  }
+}
+
+
 } // ft
 #endif // CPP_TYPE_TRATIS_H_

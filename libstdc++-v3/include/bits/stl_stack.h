@@ -1,10 +1,13 @@
-#ifndef STL_STACK_H_
-#define STL_STACK_H_
+// Stack implementation -*- C++ -*-
 
 /** @file stl_stack.h
  * This is an internal header file, included by other library headers.
  * You should not attempt to use it directly.
  */
+
+
+#ifndef STL_STACK_H_
+#define STL_STACK_H_
 
 #include "stl_vector.h"
 
