@@ -1,9 +1,12 @@
 #include "common.hpp"
 #include <list>
 
+// #undef TESTED_NAMESPACE
+// #define TESTED_NAMESPACE std
 #define T1 int
 #define T2 std::string
 typedef _pair<const T1, T2> T3;
+#include <map>
 
 static int iter = 0;
 
@@ -31,14 +34,27 @@ int		main(void)
 		lst.push_back(T3(i, std::string((lst_size - i), i + 65)));
 	TESTED_NAMESPACE::map<T1, T2> mp(lst.begin(), lst.end());
 	printSize(mp);
-
+	std::cout << (++mp.begin())->second << std::endl;
 	ft_erase(mp, ++mp.begin());
-
+	
+	std::cout << (mp.begin())->second << std::endl;
 	ft_erase(mp, mp.begin());
+	
+	std::cout << (--mp.end())->second << std::endl;
+
 	ft_erase(mp, --mp.end());
+	
+	std::cout << (mp.begin())->second << std::endl;
+	std::cout << (++(++(++(mp.begin()))))->second << std::endl;
 
 	ft_erase(mp, mp.begin(), ++(++(++mp.begin())));
+
+	std::cout << (--(--(--(mp.end()))))->first << std::endl;
+	std::cout << (--(--(--(mp.end()))))->second << std::endl;
+	std::cout << (--(mp.end()))->second << std::endl;
+
 	ft_erase(mp, --(--(--mp.end())), --mp.end());
+	
 
 	mp[10] = "Hello";
 	mp[11] = "Hi there";
