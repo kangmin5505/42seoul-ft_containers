@@ -160,7 +160,6 @@ struct Rb_tree_iterator
   typedef Rb_tree_node_base::Base_ptr       Base_ptr;
   typedef Rb_tree_node<Tp>*                 Link_type;
 
-  Base_ptr M_node;
 
   Rb_tree_iterator()
   : M_node() { }
@@ -214,6 +213,8 @@ struct Rb_tree_iterator
   bool
   operator!=(const Self& x) const
   { return M_node != x.M_node; }
+
+  Base_ptr M_node;
 };
 
 template <typename Tp>
@@ -231,8 +232,6 @@ struct Rb_tree_const_iterator
   typedef Rb_tree_const_iterator<Tp>        Self;
   typedef Rb_tree_node_base::Const_Base_ptr Base_ptr;
   typedef const Rb_tree_node<Tp>*           Link_type;
-
-  Base_ptr M_node;
 
   Rb_tree_const_iterator()
   : M_node() { }
@@ -289,6 +288,8 @@ struct Rb_tree_const_iterator
   bool
   operator!=(const Self& x) const
   { return M_node != x.M_node; }
+
+  Base_ptr M_node;
 };
 
 template <typename Val>
@@ -622,9 +623,9 @@ class Rb_tree
           Node_allocator;
 
   protected:
-    typedef Rb_tree_node_base*        Base_ptr;
-    typedef const Rb_tree_node_base*  Const_Base_ptr;
-    typedef Rb_tree_node<Val>         Rb_tree_node;
+    typedef Rb_tree_node_base*                    Base_ptr;
+    typedef const Rb_tree_node_base*              Const_Base_ptr;
+    typedef Rb_tree_node<Val>                     Rb_tree_node;
 
   public:
     typedef Key                                   key_type;
@@ -735,7 +736,7 @@ class Rb_tree
       }
     };
 
-    Rb_tree_impl<Compare>                         M_impl;
+    Rb_tree_impl<Compare> M_impl;
 
 
   protected:
