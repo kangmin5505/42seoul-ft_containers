@@ -1,5 +1,4 @@
 // Vector implementation -*- C++ -*-
-
 /** @file stl_vector.h
  *  This is an internal header file, included by other library headers.
  *  You should not attempt to use it directly.
@@ -735,7 +734,7 @@ class vector : protected Vector_base<Tp, Alloc>
     erase(iterator first, iterator last)
     {
       if (last != end())
-        std::copy(last, end(), first);
+        std::move(last, end(), first);
       M_erase_at_end(first.base() + (end() - last));
       return first;
     }
@@ -1045,12 +1044,13 @@ class vector : protected Vector_base<Tp, Alloc>
         }
         else
         {
-          const size_type old_size = size();
+          const size_type old_size = capacity();
           if (this->max_size() - old_size < n)
             throw std::length_error("vector::M_fill_insert");
           
           // See M_insert_aux above.
-          size_type len = old_size + std::max(old_size, n);
+          // size_type len = old_size + std::max(old_size, n);
+          size_type len = std::max(size() + n, capacity() * 2);
           if (len < old_size)
             len = this->max_size();
           pointer new_start(this->M_allocate(len));
@@ -1282,7 +1282,7 @@ bool
 operator>=(const vector<Tp, Alloc>& x, const vector<Tp, Alloc>& y)
 { return !(x < y); }
 
-/// See ft::vector::swap().
+/// See std::vector::swap().
 template <typename Tp, typename Alloc>
 void
 swap(vector<Tp, Alloc>& x, vector<Tp, Alloc>& y)

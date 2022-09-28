@@ -89,7 +89,7 @@ struct iterator_traits<Tp*>
   typedef Tp                               value_type;
   typedef ptrdiff_t                        difference_type;
   typedef Tp*                              pointer;
-  typedef Tp&                             reference;
+  typedef Tp&                              reference;
 };
 
 /// Partial specialization for const pointer types.

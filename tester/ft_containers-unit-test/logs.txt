@@ -1,0 +1,13 @@
+../utilities_tests/enable_if.cpp:7:1: warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+../utilities_tests/enable_if.cpp:19:2: note: in instantiation of function template specialization 'foo<unsigned int>' requested here
+        foo(xx);
+        ^
+../utilities_tests/enable_if.cpp:12:1: warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+../utilities_tests/enable_if.cpp:20:2: note: in instantiation of function template specialization 'foo<int>' requested here
+        foo(x);
+        ^
+2 warnings generated.

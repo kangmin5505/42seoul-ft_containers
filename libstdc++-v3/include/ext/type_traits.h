@@ -9,7 +9,7 @@ struct enable_if { };
 
 template <typename Tp>
 struct enable_if<true, Tp>
-  { typedef Tp type; };
+{ typedef Tp type; };
 
 /// @brief helper classes
 template <typename Tp, Tp v>
@@ -50,6 +50,14 @@ struct is_integral<wchar_t>
 : public integral_constant<wchar_t, true> { };
 
 template <>
+struct is_integral<char16_t>
+: public integral_constant<char16_t, true> { };
+
+template <>
+struct is_integral<char32_t>
+: public integral_constant<char32_t, true> { };
+
+template <>
 struct is_integral<short>
 : public integral_constant<short, true> { };
 
@@ -79,58 +87,6 @@ struct is_integral<long long>
 
 template <>
 struct is_integral<unsigned long long>
-: public integral_constant<unsigned long long, true> { };
-
-template <>
-struct is_integral<bool const>
-: public integral_constant<bool, true> { };
-
-template <>
-struct is_integral<char const>
-: public integral_constant<char, true> { };
-
-template <>
-struct is_integral<signed char const>
-: public integral_constant<signed char, true> { };
-
-template <>
-struct is_integral<unsigned char const>
-: public integral_constant<unsigned char, true> { };
-
-template <>
-struct is_integral<wchar_t const>
-: public integral_constant<wchar_t, true> { };
-
-template <>
-struct is_integral<short const>
-: public integral_constant<short, true> { };
-
-template <>
-struct is_integral<unsigned short const>
-: public integral_constant<unsigned short, true> { };
-
-template <>
-struct is_integral<int const>
-: public integral_constant<int, true> { };
-
-template <>
-struct is_integral<unsigned int const>
-: public integral_constant<unsigned int, true> { };
-
-template <>
-struct is_integral<long const>
-: public integral_constant<long, true> { };
-
-template <>
-struct is_integral<unsigned long const>
-: public integral_constant<unsigned long, true> { };
-
-template <>
-struct is_integral<long long const>
-: public integral_constant<long long, true> { };
-
-template <>
-struct is_integral<unsigned long long const>
 : public integral_constant<unsigned long long, true> { };
 
 } // ft
