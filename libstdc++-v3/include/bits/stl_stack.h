@@ -55,8 +55,6 @@ class stack
 
 public:
   typedef typename Sequence::value_type       value_type;
-  typedef typename Sequence::reference        reference;
-  typedef typename Sequence::const_reference  const_reference;
   typedef typename Sequence::size_type        size_type;
   typedef          Sequence                   container_type;
 
@@ -70,6 +68,8 @@ protected:
    * containers allow for derivation. Odd.)
    */
   Sequence c;
+  typedef typename Sequence::reference        reference;
+  typedef typename Sequence::const_reference  const_reference;
 
 public:
   // XXX removed old def ctor, added def arg to this one to match 14882

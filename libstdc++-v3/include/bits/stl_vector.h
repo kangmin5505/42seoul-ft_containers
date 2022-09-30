@@ -138,6 +138,7 @@ class vector : protected Vector_base<Tp, Alloc>
 
 
   public:
+
     // construct/copy/destroy
     // (assign() and get_allocator() are also listed in this section)
     /**
@@ -734,7 +735,7 @@ class vector : protected Vector_base<Tp, Alloc>
     erase(iterator first, iterator last)
     {
       if (last != end())
-        std::move(last, end(), first);
+        std::copy(last, end(), first);
       M_erase_at_end(first.base() + (end() - last));
       return first;
     }
@@ -765,6 +766,10 @@ class vector : protected Vector_base<Tp, Alloc>
     void
     clear()
     { M_erase_at_end(this->M_impl.M_start); }
+
+    allocator_type
+    get_allocator() const
+    { return Base::get_allocator(); }
   protected:
     /**
      * @if maint
